@@ -5,3 +5,4 @@ tests/allure-results
 data/__pycache__
 models/__pycache__
 tests/__pycache__
+utils/__pycache__
