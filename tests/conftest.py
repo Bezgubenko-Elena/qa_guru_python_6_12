@@ -1,9 +1,10 @@
 import pytest
+import os
+
 from selenium import webdriver
 from selene import browser
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
-import os
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
 from utils import attach
@@ -25,7 +26,7 @@ def load_env():
     load_dotenv()
 
 
-@pytest.fixture(scope='function', autouse=True)
+@pytest.fixture(scope='function')
 def setup_browser(request):
     browser_version = request.config.getoption('--browser_version')
     browser_version = browser_version if browser_version != "" else DEFAULT_BROWSER_VERSION
