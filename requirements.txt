@@ -1,5 +1,5 @@
 pytest
-selene>=2.0.0rc4
+selene==2.0.0b5
 selenium
 allure-pytest
 python-dotenv~=1.0.0

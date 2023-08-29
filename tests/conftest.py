@@ -3,21 +3,19 @@ import os
 
 from selenium import webdriver
 from selene import browser
-from selenium.webdriver.chrome.service import Service
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.options import Options
 from dotenv import load_dotenv
 from utils import attach
 
 path_picture = os.path.abspath(os.path.join(os.path.dirname(__file__), '../resources'))
 
-DEFAULT_BROWSER_VERSION = "114.0.5735.90"
+DEFAULT_BROWSER_VERSION = "100.0"
 
 
 def pytest_addoption(parser):
     parser.addoption(
         '--browser_version',
-        default='114.0.5735.90'
+        default='100.0'
     )
 
 
