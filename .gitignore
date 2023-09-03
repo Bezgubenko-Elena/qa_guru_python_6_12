@@ -1,8 +1,8 @@
 # created by virtualenv automatically
 venv
 .idea
-tests/allure-results
-data/__pycache__
-models/__pycache__
-tests/__pycache__
-utils/__pycache__
+data/__pycache__/
+models/__pycache__/
+tests/__pycache__/
+tests/allure-results/
+utils/__pycache__/
