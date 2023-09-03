@@ -1,16 +1,20 @@
 import os
-
 import pytest
-from selene.support.shared import browser
-from selenium import webdriver
-from dotenv import load_dotenv
 from selenium.webdriver.chrome.options import Options
-
+from dotenv import load_dotenv
+from selene import browser
+import tests
+from selenium import webdriver
 from utils import attach
 
 path_picture = os.path.abspath(os.path.join(os.path.dirname(__file__), '../resources'))
 
 DEFAULT_BROWSER_VERSION = "100.0"
+
+
+def path(file_name):
+    return os.path.abspath(
+        os.path.join(os.path.dirname(tests.__file__), f'resources/{file_name}'))
 
 
 def pytest_addoption(parser):
@@ -19,16 +23,27 @@ def pytest_addoption(parser):
         default='100.0'
     )
 
+    parser.addoption(
+        '--browser',
+        default="chrome"
+    )
+
 
 @pytest.fixture(scope='session', autouse=True)
 def load_env():
     load_dotenv()
 
 
-@pytest.fixture(scope="function", autouse=True)
-def configure_browser(request):
+@pytest.fixture(scope='function', autouse=True)
+def setup_browser(request):
+    browser.config.window_width = 1920
+    browser.config.window_height = 1080
+    browser.config.timeout = 10
+
     browser_version = request.config.getoption('--browser_version')
-    browser_version = browser_version if browser_version != "" else DEFAULT_BROWSER_VERSION
+    browser_version = browser_version \
+        if browser_version != "" \
+        else DEFAULT_BROWSER_VERSION
     options = Options()
     selenoid_capabilities = {
         "browserName": "chrome",
@@ -47,11 +62,7 @@ def configure_browser(request):
         command_executor=f"https://{login}:{password}@selenoid.autotests.cloud/wd/hub",
         options=options
     )
-
     browser.config.driver = driver
-    browser.config.base_url = "https://demoqa.com"
-    browser.config.window_width = 1920
-    browser.config.window_height = 1080
 
     yield browser
 
@@ -59,4 +70,5 @@ def configure_browser(request):
     attach.add_screenshot(browser)
     attach.add_logs(browser)
     attach.add_video(browser)
+
     browser.quit()
