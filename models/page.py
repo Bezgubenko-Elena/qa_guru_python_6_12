@@ -1,6 +1,6 @@
 import os
-from selene import browser
-from selene import have
+from selene import browser, command
+from selene import have, be, by
 from tests.conftest import path_picture
 import allure
 
@@ -8,7 +8,8 @@ import allure
 class RegistrationPage:
     @allure.step("Открываем страницу для заполнения формы")
     def open(self):
-        browser.open('/automation-practice-form')
+        browser.open('https://demoqa.com/automation-practice-form')
+        browser.element('#fixedban').execute_script('element.remove()')
 
     @allure.step("Заполняем данные, отправляем форму")
     def register(self, user):
@@ -99,9 +100,9 @@ class RegistrationPage:
 
     def _fill_state_and_city(self, state, city):
         browser.element('#state').click()
-        browser.all("#state div").element_by(have.exact_text(state)).click()
+        browser.element('#react-select-3-input').should(be.blank).type(state).press_enter()
         browser.element('#city').click()
-        browser.all("#city div").element_by(have.exact_text(city)).click()
+        browser.all('[id^="react-select"][id*=option]').element_by(have.exact_text(city)).click()
 
     def _submit(self):
         browser.element('[id="submit"]').click()
