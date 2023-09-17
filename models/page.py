@@ -9,7 +9,8 @@ class RegistrationPage:
     @allure.step("Открываем страницу для заполнения формы")
     def open(self):
         browser.open('https://demoqa.com/automation-practice-form')
-        browser.element('#fixedban').execute_script('element.remove()')
+        browser.execute_script('document.querySelector("#fixedban").remove()')
+        browser.element('footer').execute_script('element.remove()')
 
     @allure.step("Заполняем данные, отправляем форму")
     def register(self, user):
